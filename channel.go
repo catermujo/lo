@@ -1,10 +1,10 @@
-package lo
+package wiz
 
 import (
 	"sync"
 	"time"
 
-	"github.com/samber/lo/internal/rand"
+	"github.com/catermujo/wiz/internal/rand"
 )
 
 type DispatchingStrategy[T any] func(msg T, index uint64, channels []<-chan T) int

@@ -1,7 +1,7 @@
 //go:build !race
 // +build !race
 
-package lo
+package wiz
 
 import (
 	"fmt"

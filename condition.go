@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 // Ternary is a 1 line if/else statement.
 // Play: https://go.dev/play/p/t-D7WBL44h2

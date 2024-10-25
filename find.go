@@ -1,11 +1,11 @@
-package lo
+package wiz
 
 import (
 	"fmt"
 	"time"
 
-	"github.com/samber/lo/internal/constraints"
-	"github.com/samber/lo/internal/rand"
+	"github.com/catermujo/wiz/internal/constraints"
+	"github.com/catermujo/wiz/internal/rand"
 )
 
 // IndexOf returns the index at which the first occurrence of a value is found in an array or return -1

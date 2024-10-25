@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 import (
 	"math/rand"
@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	lop "github.com/samber/lo/parallel"
+	lop "github.com/catermujo/wiz/parallel"
 	"github.com/thoas/go-funk"
 )
 
@@ -37,7 +37,7 @@ func mapGenerator(size uint) map[int64]int64 {
 func BenchmarkMap(b *testing.B) {
 	arr := sliceGenerator(1000000)
 
-	b.Run("lo.Map", func(b *testing.B) {
+	b.Run("wiz.Map", func(b *testing.B) {
 		for n := 0; n < b.N; n++ {
 			_ = Map(arr, func(x int64, i int) string {
 				return strconv.FormatInt(x, 10)
@@ -82,7 +82,7 @@ func BenchmarkUniqKeys(b *testing.B) {
 	}
 
 	// allocate just in time + ordered
-	b.Run("lo.UniqKeys.jit-alloc", func(b *testing.B) {
+	b.Run("wiz.UniqKeys.jit-alloc", func(b *testing.B) {
 		for n := 0; n < b.N; n++ {
 			seen := make(map[int64]struct{})
 			result := make([]int64, 0)
@@ -100,7 +100,7 @@ func BenchmarkUniqKeys(b *testing.B) {
 	})
 
 	// preallocate + unordered
-	b.Run("lo.UniqKeys.preallocate", func(b *testing.B) {
+	b.Run("wiz.UniqKeys.preallocate", func(b *testing.B) {
 		for n := 0; n < b.N; n++ {
 			size := 0
 			for i := range m {

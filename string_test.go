@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 import (
 	"math"
@@ -27,8 +27,8 @@ func TestRandomString(t *testing.T) {
 	is.Equal(100, RuneLength(str3))
 	is.Subset(noneUtf8Charset, []rune(str3))
 
-	is.PanicsWithValue("lo.RandomString: Charset parameter must not be empty", func() { RandomString(100, []rune{}) })
-	is.PanicsWithValue("lo.RandomString: Size parameter must be greater than 0", func() { RandomString(0, LowerCaseLettersCharset) })
+	is.PanicsWithValue("wiz.RandomString: Charset parameter must not be empty", func() { RandomString(100, []rune{}) })
+	is.PanicsWithValue("wiz.RandomString: Size parameter must be greater than 0", func() { RandomString(0, LowerCaseLettersCharset) })
 }
 
 func TestChunkString(t *testing.T) {
@@ -87,7 +87,7 @@ func TestSubstring(t *testing.T) {
 	is.Equal("llo", str7)
 	is.Equal("llo", str8)
 	is.Equal("llo", str9)
-	is.Equal("lo", str10)
+	is.Equal("wiz", str10)
 	is.Equal("e", str11)
 	is.Equal("ello", str12)
 	is.Equal("🏠🐶", str13)

@@ -1,10 +1,10 @@
-package lo
+package wiz
 
 import (
 	"sort"
 
-	"github.com/samber/lo/internal/constraints"
-	"github.com/samber/lo/internal/rand"
+	"github.com/catermujo/wiz/internal/constraints"
+	"github.com/catermujo/wiz/internal/rand"
 )
 
 // Filter iterates over elements of collection, returning an array of all elements predicate returns truthy for.
@@ -545,7 +545,7 @@ func CountValues[T comparable](collection []T) map[T]int {
 }
 
 // CountValuesBy counts the number of each element return from mapper function.
-// Is equivalent to chaining lo.Map and lo.CountValues.
+// Is equivalent to chaining wiz.Map and wiz.CountValues.
 // Play: https://go.dev/play/p/2U0dG1SnOmS
 func CountValuesBy[T any, U comparable](collection []T, mapper func(item T) U) map[U]int {
 	result := make(map[U]int)

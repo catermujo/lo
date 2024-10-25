@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 // Entry defines a key/value pairs.
 type Entry[K comparable, V any] struct {

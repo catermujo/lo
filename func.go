@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 // Partial returns new function that, when called, has its first argument set to the provided value.
 func Partial[T1, T2, R any](f func(a T1, b T2) R, arg1 T1) func(T2) R {

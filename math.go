@@ -1,7 +1,7 @@
-package lo
+package wiz
 
 import (
-	"github.com/samber/lo/internal/constraints"
+	"github.com/catermujo/wiz/internal/constraints"
 )
 
 // Range creates an array of numbers (positive and/or negative) with given length.

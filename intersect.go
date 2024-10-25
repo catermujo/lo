@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 // Contains returns true if an element is present in a collection.
 func Contains[T comparable](collection []T, element T) bool {
@@ -178,7 +178,7 @@ func Without[T comparable, Slice ~[]T](collection Slice, exclude ...T) Slice {
 
 // WithoutEmpty returns slice excluding empty values.
 //
-// Deprecated: Use lo.Compact instead.
+// Deprecated: Use wiz.Compact instead.
 func WithoutEmpty[T comparable, Slice ~[]T](collection Slice) Slice {
 	return Compact(collection)
 }

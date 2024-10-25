@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ func ExampleSubstring() {
 	// Output:
 	// llo
 	// ell
-	// lo
+	// wiz
 	// 🏠🐶
 	// 你好，
 }

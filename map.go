@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 // Keys creates an array of the map keys.
 // Play: https://go.dev/play/p/Uu11fHASqrU

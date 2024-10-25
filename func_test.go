@@ -1,4 +1,4 @@
-package lo
+package wiz
 
 import (
 	"strconv"

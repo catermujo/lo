@@ -1,7 +1,7 @@
-package lo
+package wiz
 
 import (
-	"github.com/samber/lo/internal/rand"
+	"github.com/catermujo/wiz/internal/rand"
 	"math"
 	"regexp"
 	"strings"
@@ -32,10 +32,10 @@ var (
 // Play: https://go.dev/play/p/rRseOQVVum4
 func RandomString(size int, charset []rune) string {
 	if size <= 0 {
-		panic("lo.RandomString: Size parameter must be greater than 0")
+		panic("wiz.RandomString: Size parameter must be greater than 0")
 	}
 	if len(charset) <= 0 {
-		panic("lo.RandomString: Charset parameter must not be empty")
+		panic("wiz.RandomString: Charset parameter must not be empty")
 	}
 
 	// see https://stackoverflow.com/questions/22892120/how-to-generate-a-random-string-of-a-fixed-length-in-go
@@ -116,7 +116,7 @@ func Substring[T ~string](str T, offset int, length uint) T {
 // Play: https://go.dev/play/p/__FLTuJVz54
 func ChunkString[T ~string](str T, size int) []T {
 	if size <= 0 {
-		panic("lo.ChunkString: Size parameter must be greater than 0")
+		panic("wiz.ChunkString: Size parameter must be greater than 0")
 	}
 
 	if len(str) == 0 {
