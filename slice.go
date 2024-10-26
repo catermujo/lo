@@ -354,28 +354,19 @@ func KeyBy[K comparable, V any](collection []V, iteratee func(item V) K) map[K]V
 	return result
 }
 
-// Associate returns a map containing key-value pairs provided by transform function applied to elements of the given slice.
+// Assoc returns a map containing key-value pairs provided by transform function applied to elements of the given slice.
 // If any of two pairs would have the same key the last one gets added to the map.
 // The order of keys in returned map is not specified and is not guaranteed to be the same from the original array.
 // Play: https://go.dev/play/p/WHa2CfMO3Lr
-func Associate[T any, K comparable, V any](collection []T, transform func(item T) (K, V)) map[K]V {
+func Assoc[T any, K comparable, V any](collection []T, transform func(item T, idx int) (K, V)) map[K]V {
 	result := make(map[K]V, len(collection))
 
 	for i := range collection {
-		k, v := transform(collection[i])
+		k, v := transform(collection[i], i)
 		result[k] = v
 	}
 
 	return result
-}
-
-// SliceToMap returns a map containing key-value pairs provided by transform function applied to elements of the given slice.
-// If any of two pairs would have the same key the last one gets added to the map.
-// The order of keys in returned map is not specified and is not guaranteed to be the same from the original array.
-// Alias of Associate().
-// Play: https://go.dev/play/p/WHa2CfMO3Lr
-func SliceToMap[T any, K comparable, V any](collection []T, transform func(item T) (K, V)) map[K]V {
-	return Associate(collection, transform)
 }
 
 // Drop drops n elements from the beginning of a slice or array.
