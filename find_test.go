@@ -542,10 +542,10 @@ func TestSample(t *testing.T) {
 	t.Parallel()
 	is := assert.New(t)
 
-	rand.Seed(time.Now().UnixNano())
+	gen := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	result1 := Sample([]string{"a", "b", "c"})
-	result2 := Sample([]string{})
+	result1 := Sample([]string{"a", "b", "c"}, gen)
+	result2 := Sample([]string{}, gen)
 
 	is.True(Contains([]string{"a", "b", "c"}, result1))
 	is.Equal(result2, "")
@@ -555,10 +555,10 @@ func TestSamples(t *testing.T) {
 	t.Parallel()
 	is := assert.New(t)
 
-	rand.Seed(time.Now().UnixNano())
+	gen := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	result1 := Samples([]string{"a", "b", "c"}, 3)
-	result2 := Samples([]string{}, 3)
+	result1 := Samples([]string{"a", "b", "c"}, 3, gen)
+	result2 := Samples([]string{}, 3, gen)
 
 	sort.Strings(result1)
 
@@ -567,6 +567,6 @@ func TestSamples(t *testing.T) {
 
 	type myStrings []string
 	allStrings := myStrings{"", "foo", "bar"}
-	nonempty := Samples(allStrings, 2)
+	nonempty := Samples(allStrings, 2, gen)
 	is.IsType(nonempty, allStrings, "type preserved")
 }

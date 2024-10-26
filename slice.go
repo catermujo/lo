@@ -1,10 +1,9 @@
 package wiz
 
 import (
+	"cmp"
+	"math/rand"
 	"sort"
-
-	"github.com/catermujo/wiz/internal/constraints"
-	"github.com/catermujo/wiz/internal/rand"
 )
 
 // Filter iterates over elements of collection, returning an array of all elements predicate returns truthy for.
@@ -283,8 +282,8 @@ func Interleave[T any, Slice ~[]T](collections ...Slice) Slice {
 
 // Shuffle returns an array of shuffled values. Uses the Fisher-Yates shuffle algorithm.
 // Play: https://go.dev/play/p/Qp73bnTDnc7
-func Shuffle[T any, Slice ~[]T](collection Slice) Slice {
-	rand.Shuffle(len(collection), func(i, j int) {
+func Shuffle[T any, Slice ~[]T](collection Slice, gen *rand.Rand) Slice {
+	gen.Shuffle(len(collection), func(i, j int) {
 		collection[i], collection[j] = collection[j], collection[i]
 	})
 
@@ -637,7 +636,7 @@ func Compact[T comparable, Slice ~[]T](collection Slice) Slice {
 
 // IsSorted checks if a slice is sorted.
 // Play: https://go.dev/play/p/mc3qR-t4mcx
-func IsSorted[T constraints.Ordered](collection []T) bool {
+func IsSorted[T cmp.Ordered](collection []T) bool {
 	for i := 1; i < len(collection); i++ {
 		if collection[i-1] > collection[i] {
 			return false
@@ -649,7 +648,7 @@ func IsSorted[T constraints.Ordered](collection []T) bool {
 
 // IsSortedByKey checks if a slice is sorted by iteratee.
 // Play: https://go.dev/play/p/wiG6XyBBu49
-func IsSortedByKey[T any, K constraints.Ordered](collection []T, iteratee func(item T) K) bool {
+func IsSortedByKey[T any, K cmp.Ordered](collection []T, iteratee func(item T) K) bool {
 	size := len(collection)
 
 	for i := 0; i < size-1; i++ {

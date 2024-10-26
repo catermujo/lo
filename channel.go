@@ -1,10 +1,9 @@
 package wiz
 
 import (
+	"math/rand"
 	"sync"
 	"time"
-
-	"github.com/catermujo/wiz/internal/rand"
 )
 
 type DispatchingStrategy[T any] func(msg T, index uint64, channels []<-chan T) int
@@ -85,9 +84,9 @@ func DispatchingStrategyRoundRobin[T any](msg T, index uint64, channels []<-chan
 
 // DispatchingStrategyRandom distributes messages in a random manner.
 // If the channel capacity is exceeded, another random channel will be selected and so on.
-func DispatchingStrategyRandom[T any](msg T, index uint64, channels []<-chan T) int {
+func DispatchingStrategyRandom[T any](gen *rand.Rand, msg T, index uint64, channels []<-chan T) int {
 	for {
-		i := rand.IntN(len(channels))
+		i := gen.Intn(len(channels))
 		if channelIsNotFull(channels[i]) {
 			return i
 		}
@@ -98,7 +97,7 @@ func DispatchingStrategyRandom[T any](msg T, index uint64, channels []<-chan T) 
 
 // DispatchingStrategyWeightedRandom distributes messages in a weighted manner.
 // If the channel capacity is exceeded, another random channel will be selected and so on.
-func DispatchingStrategyWeightedRandom[T any](weights []int) DispatchingStrategy[T] {
+func DispatchingStrategyWeightedRandom[T any](weights []int, gen *rand.Rand) DispatchingStrategy[T] {
 	seq := []int{}
 
 	for i := 0; i < len(weights); i++ {
@@ -109,7 +108,7 @@ func DispatchingStrategyWeightedRandom[T any](weights []int) DispatchingStrategy
 
 	return func(msg T, index uint64, channels []<-chan T) int {
 		for {
-			i := seq[rand.IntN(len(seq))]
+			i := seq[gen.Intn(len(seq))]
 			if channelIsNotFull(channels[i]) {
 				return i
 			}

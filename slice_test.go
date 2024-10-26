@@ -3,10 +3,12 @@ package wiz
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"reflect"
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -364,15 +366,17 @@ func TestShuffle(t *testing.T) {
 	t.Parallel()
 	is := assert.New(t)
 
-	result1 := Shuffle([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
-	result2 := Shuffle([]int{})
+	gen := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	result1 := Shuffle([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, gen)
+	result2 := Shuffle([]int{}, gen)
 
 	is.NotEqual(result1, []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 	is.Equal(result2, []int{})
 
 	type myStrings []string
 	allStrings := myStrings{"", "foo", "bar"}
-	nonempty := Shuffle(allStrings)
+	nonempty := Shuffle(allStrings, gen)
 	is.IsType(nonempty, allStrings, "type preserved")
 }
 
@@ -451,12 +455,12 @@ func TestAssociate(t *testing.T) {
 		baz string
 		bar int
 	}
-	transform := func(f *foo) (string, int) {
+	transform := func(f *foo, _ int) (string, int) {
 		return f.baz, f.bar
 	}
 	testCases := []struct {
-		in     []*foo
 		expect map[string]int
+		in     []*foo
 	}{
 		{
 			in:     []*foo{{baz: "apple", bar: 1}},
@@ -474,42 +478,7 @@ func TestAssociate(t *testing.T) {
 	for i, testCase := range testCases {
 		t.Run(fmt.Sprintf("test_%d", i), func(t *testing.T) {
 			is := assert.New(t)
-			is.Equal(Associate(testCase.in, transform), testCase.expect)
-		})
-	}
-}
-
-func TestSliceToMap(t *testing.T) {
-	t.Parallel()
-
-	type foo struct {
-		baz string
-		bar int
-	}
-	transform := func(f *foo) (string, int) {
-		return f.baz, f.bar
-	}
-	testCases := []struct {
-		in     []*foo
-		expect map[string]int
-	}{
-		{
-			in:     []*foo{{baz: "apple", bar: 1}},
-			expect: map[string]int{"apple": 1},
-		},
-		{
-			in:     []*foo{{baz: "apple", bar: 1}, {baz: "banana", bar: 2}},
-			expect: map[string]int{"apple": 1, "banana": 2},
-		},
-		{
-			in:     []*foo{{baz: "apple", bar: 1}, {baz: "apple", bar: 2}},
-			expect: map[string]int{"apple": 2},
-		},
-	}
-	for i, testCase := range testCases {
-		t.Run(fmt.Sprintf("test_%d", i), func(t *testing.T) {
-			is := assert.New(t)
-			is.Equal(SliceToMap(testCase.in, transform), testCase.expect)
+			is.Equal(Assoc(testCase.in, transform), testCase.expect)
 		})
 	}
 }
@@ -921,8 +890,8 @@ func TestCompact(t *testing.T) {
 	is.Equal(r3, []bool{true, true})
 
 	type foo struct {
-		bar int
 		baz string
+		bar int
 	}
 
 	// slice of structs

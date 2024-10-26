@@ -6,11 +6,11 @@ import (
 )
 
 type debounce struct {
-	after     time.Duration
 	mu        *sync.Mutex
 	timer     *time.Timer
-	done      bool
 	callbacks []func()
+	after     time.Duration
+	done      bool
 }
 
 func (d *debounce) reset() {
@@ -67,10 +67,10 @@ type debounceByItem struct {
 }
 
 type debounceBy[T comparable] struct {
-	after     time.Duration
 	mu        *sync.Mutex
 	items     map[T]*debounceByItem
 	callbacks []func(key T, count int)
+	after     time.Duration
 }
 
 func (d *debounceBy[T]) reset(key T) {

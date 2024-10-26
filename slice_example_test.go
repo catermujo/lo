@@ -3,7 +3,9 @@ package wiz
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
 func ExampleFilter() {
@@ -211,7 +213,9 @@ func ExampleInterleave() {
 func ExampleShuffle() {
 	list := []int{0, 1, 2, 3, 4, 5}
 
-	result := Shuffle(list)
+	gen := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	result := Shuffle(list, gen)
 
 	fmt.Printf("%v", result)
 }
@@ -261,10 +265,10 @@ func ExampleKeyBy() {
 	// Output: map[1:a 2:aa 3:aaa]
 }
 
-func ExampleAssociate() {
+func ExampleAssoc() {
 	list := []string{"a", "aa", "aaa"}
 
-	result := Associate(list, func(str string) (string, int) {
+	result := Assoc(list, func(str string, _ int) (string, int) {
 		return str, len(str)
 	})
 

@@ -116,7 +116,7 @@ func TestDispatchingStrategyRandom(t *testing.T) {
 	is := assert.New(t)
 
 	// with this seed, the order of random channels are: 1 - 0
-	rand.Seed(14)
+	gen := rand.New(rand.NewSource(14))
 
 	children := createChannels[int](2, 2)
 	rochildren := channelsToReadOnly(children)
@@ -126,7 +126,7 @@ func TestDispatchingStrategyRandom(t *testing.T) {
 		children[1] <- i
 	}
 
-	is.Equal(0, DispatchingStrategyRandom(42, 0, rochildren))
+	is.Equal(0, DispatchingStrategyRandom(gen, 42, 0, rochildren))
 }
 
 func TestDispatchingStrategyWeightedRandom(t *testing.T) {
@@ -134,11 +134,13 @@ func TestDispatchingStrategyWeightedRandom(t *testing.T) {
 	testWithTimeout(t, 10*time.Millisecond)
 	is := assert.New(t)
 
+	gen := rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	children := createChannels[int](2, 2)
 	rochildren := channelsToReadOnly(children)
 	defer closeChannels(children)
 
-	dispatcher := DispatchingStrategyWeightedRandom[int]([]int{0, 42})
+	dispatcher := DispatchingStrategyWeightedRandom[int]([]int{0, 42}, gen)
 
 	is.Equal(1, dispatcher(42, 0, rochildren))
 	children[0] <- 0

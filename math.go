@@ -1,7 +1,7 @@
 package wiz
 
 import (
-	"github.com/catermujo/wiz/internal/constraints"
+	"cmp"
 )
 
 // Range creates an array of numbers (positive and/or negative) with given length.
@@ -18,7 +18,7 @@ func Range(elementNum int) []int {
 
 // RangeFrom creates an array of numbers from start with specified length.
 // Play: https://go.dev/play/p/0r6VimXAi9H
-func RangeFrom[T constraints.Integer | constraints.Float](start T, elementNum int) []T {
+func RangeFrom[T Integer | Float](start T, elementNum int) []T {
 	length := If(elementNum < 0, -elementNum).Else(elementNum)
 	result := make([]T, length)
 	step := If(elementNum < 0, -1).Else(1)
@@ -31,7 +31,7 @@ func RangeFrom[T constraints.Integer | constraints.Float](start T, elementNum in
 // RangeWithSteps creates an array of numbers (positive and/or negative) progressing from start up to, but not including end.
 // step set to zero will return empty array.
 // Play: https://go.dev/play/p/0r6VimXAi9H
-func RangeWithSteps[T constraints.Integer | constraints.Float](start, end, step T) []T {
+func RangeWithSteps[T Integer | Float](start, end, step T) []T {
 	result := []T{}
 	if start == end || step == 0 {
 		return result
@@ -56,7 +56,7 @@ func RangeWithSteps[T constraints.Integer | constraints.Float](start, end, step 
 
 // Clamp clamps number within the inclusive lower and upper bounds.
 // Play: https://go.dev/play/p/RU4lJNC2hlI
-func Clamp[T constraints.Ordered](value T, min T, max T) T {
+func Clamp[T cmp.Ordered](value T, min T, max T) T {
 	if value < min {
 		return min
 	} else if value > max {
@@ -67,7 +67,7 @@ func Clamp[T constraints.Ordered](value T, min T, max T) T {
 
 // Sum sums the values in a collection. If collection is empty 0 is returned.
 // Play: https://go.dev/play/p/upfeJVqs4Bt
-func Sum[T constraints.Float | constraints.Integer | constraints.Complex](collection []T) T {
+func Sum[T Float | Integer | Complex](collection []T) T {
 	var sum T = 0
 	for i := range collection {
 		sum += collection[i]
@@ -77,7 +77,7 @@ func Sum[T constraints.Float | constraints.Integer | constraints.Complex](collec
 
 // SumBy summarizes the values in a collection using the given return value from the iteration function. If collection is empty 0 is returned.
 // Play: https://go.dev/play/p/Dz_a_7jN_ca
-func SumBy[T any, R constraints.Float | constraints.Integer | constraints.Complex](collection []T, iteratee func(item T) R) R {
+func SumBy[T any, R Float | Integer | Complex](collection []T, iteratee func(item T) R) R {
 	var sum R = 0
 	for i := range collection {
 		sum = sum + iteratee(collection[i])
@@ -86,21 +86,21 @@ func SumBy[T any, R constraints.Float | constraints.Integer | constraints.Comple
 }
 
 // Mean calculates the mean of a collection of numbers.
-func Mean[T constraints.Float | constraints.Integer](collection []T) T {
-	var length = T(len(collection))
+func Mean[T Float | Integer](collection []T) T {
+	length := T(len(collection))
 	if length == 0 {
 		return 0
 	}
-	var sum = Sum(collection)
+	sum := Sum(collection)
 	return sum / length
 }
 
 // MeanBy calculates the mean of a collection of numbers using the given return value from the iteration function.
-func MeanBy[T any, R constraints.Float | constraints.Integer](collection []T, iteratee func(item T) R) R {
-	var length = R(len(collection))
+func MeanBy[T any, R Float | Integer](collection []T, iteratee func(item T) R) R {
+	length := R(len(collection))
 	if length == 0 {
 		return 0
 	}
-	var sum = SumBy(collection, iteratee)
+	sum := SumBy(collection, iteratee)
 	return sum / length
 }
